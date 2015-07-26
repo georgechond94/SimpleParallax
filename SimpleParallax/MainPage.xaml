@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="SimpleParallax.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleParallax"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media3D="using:Windows.UI.Xaml.Media.Media3D"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid x:Name="RootGrid" Margin="12,10,12,12" SizeChanged="RootGrid_SizeChanged">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                <AppBarButton>
+                    <AppBarButton.Content>
+                        <SymbolIcon Symbol="Back"></SymbolIcon>
+                    </AppBarButton.Content>
+                </AppBarButton>
+                <TextBlock Text="Parallax Effect" Style="{StaticResource HeaderTextBlockStyle}"/>
+
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto"
+                          x:Name="ParallaxRoot">
+                <ScrollViewer.Transform3D>
+                    <media3D:PerspectiveTransform3D x:Name="PerspectiveTransform" />
+                </ScrollViewer.Transform3D>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+
+                    <Image x:Name="RainierBackgroundImage" Source="Assets/rainier.jpg" Stretch="UniformToFill"
+                           VerticalAlignment="Top" Grid.Row="0">
+                        <!-- The image is translated back in 3D Z-offset to create the parallax effect. -->
+                        <!-- Since the image is "behind" the content in 3D space, it appears to move slower. -->
+                        <Image.Transform3D>
+                            <!-- See Scenario1.NormalizeParallax. Lower TranslateZ = more parallax. -->
+                            <media3D:CompositeTransform3D TranslateZ="-600" />
+                        </Image.Transform3D>
+                    </Image>
+
+                    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                          Padding="15,10"
+                          VerticalAlignment="Bottom" Grid.Row="1">
+                        <ListView x:Name="gview"  ScrollViewer.VerticalScrollMode="Disabled"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Padding="10,10" Text="{Binding Foo}"></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </RelativePanel>
+
+                </Grid>
+            </ScrollViewer>
+
+        </Grid>
+    </Grid>
+</Page>
